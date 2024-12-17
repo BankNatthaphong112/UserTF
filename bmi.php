@@ -6,72 +6,73 @@
     <title>โปรแกรมคำนวณค่า BMI</title>
     <style>
        body {
-           font-family: 'Comic Sans MS', cursive, sans-serif;
-           background-color: #f9f9f9;
-           color: #4a4a4a;
-           margin: 0;
-           padding: 0;
-       }
+    font-family: 'Comic Sans MS', cursive, sans-serif;
+    background-color: #f9f9f9;
+    color: #4a4a4a;
+    margin: 0;
+    padding: 0;
+}
 
-       .container {
-           width: 90%;
-           max-width: 600px;
-           margin: 20px auto;
-           padding: 20px;
-           background-color: #ffffff;
-           border-radius: 10px;
-           border: 1px solid #ddd;
-           box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-       }
+.container {
+    width: 90%;
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    border: 1px solid #ddd;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
 
-       h1 {
-           text-align: center;
-           color: #ff7f50;
-           margin-bottom: 20px;
-           text-transform: uppercase;
-       }
+h1 {
+    text-align: center;
+    color: #ff7f50;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+}
 
-       form label {
-           font-weight: bold;
-           color: #6b6b6b;
-           margin-bottom: 5px;
-           display: block;
-       }
+form label {
+    font-weight: bold;
+    color: #6b6b6b;
+    margin-bottom: 5px;
+    display: block;
+}
 
-       input[type="text"], input[type="number"] {
-           width: 100%;
-           padding: 10px;
-           margin-bottom: 15px;
-           border: 1px solid #ccc;
-           border-radius: 8px;
-           background-color: #f4f4f4;
-           color: #4a4a4a;
-       }
+input[type="text"], input[type="number"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #f4f4f4;
+    color: #4a4a4a;
+}
 
-       button {
-           padding: 10px;
-           width: 100%;
-           background-color: #ff7f50;
-           color: #fff;
-           font-weight: bold;
-           border: none;
-           border-radius: 8px;
-           cursor: pointer;
-           font-size: 1em;
-       }
+button {
+    padding: 10px;
+    width: 100%;
+    background-color: #ff7f50;
+    color: #fff;
+    font-weight: bold;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1em;
+}
 
-       button:hover {
-           background-color: #ff6347;
-       }
+button:hover {
+    background-color: #ff6347;
+}
 
-       .result {
-           margin-top: 20px;
-           padding: 15px;
-           background-color: #ffe4e1;
-           border-left: 5px solid #ff7f50;
-           border-radius: 5px;
-           color: #4a4a4a;
-       }
+.result {
+    margin-top: 20px;
+    padding: 15px;
+    background-color: #ffe4e1;
+    border-left: 5px solid #ff7f50;
+    border-radius: 5px;
+    color: #4a4a4a;
+}
+
     </style>
 </head>
 <body>
@@ -97,40 +98,6 @@
     </form>
 
     <?php
-    // Function คำนวณ BMI
-    function calculateBMI($weight, $height) {
-        $heightInMeters = $height / 100;
-            $bmi = $weight / ($heightInMeters * $heightInMeters);
-            $bmi = round($bmi, 2);
-            return $bmi;
-    }
-
-    // Function แปลผล BMI
-    function interpretBMI($bmi) {
-        if ($bmi < 18.5) {
-            return [
-                "status" => "น้ำหนักน้อยกว่ามาตรฐาน (ผอม)",
-                "advice" => "คุณควรรับประทานอาหารที่มีพลังงานเพิ่มขึ้น และออกกำลังกายให้พอเหมาะ"
-            ];
-        } elseif ($bmi < 24.9) {
-            return [
-                "status" => "น้ำหนักอยู่ในเกณฑ์มาตรฐาน",
-                "advice" => "คุณมีสุขภาพดี! รักษาน้ำหนักนี้ไว้ด้วยการออกกำลังกายและกินอาหารให้สมดุล"
-            ];
-        } elseif ($bmi < 29.9) {
-            return [
-                "status" => "น้ำหนักเกินมาตรฐาน (ท้วม)",
-                "advice" => "ควรลดอาหารที่มีไขมันและน้ำตาล และออกกำลังกายสม่ำเสมอ"
-            ];
-        } else {
-            return [
-                "status" => "อ้วน (เกินมาตรฐานมาก)",
-                "advice" => "ควรปรึกษาแพทย์และวางแผนการลดน้ำหนักอย่างเหมาะสม"
-            ];
-        }
-    }
-
-    // การประมวลผลเมื่อฟอร์มถูกส่ง
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $first_name = htmlspecialchars($_POST['first_name']);
         $last_name = htmlspecialchars($_POST['last_name']);
@@ -138,24 +105,64 @@
         $weight = (float)$_POST['weight'];
         $height = (float)$_POST['height'] / 100; // แปลงเป็นเมตร
 
-        $bmi = calculateBMI($weight, $height);
+        if ($height > 0) {
+            $bmi = $weight / ($height * $height);
 
-        if ($bmi !== null) {
-            $result = interpretBMI($bmi);
+            // แปลผล BMI
+            if ($bmi < 18.5) {
+                $result_text = "น้ำหนักน้อยกว่ามาตรฐาน (ผอม)";
+                $advice = "คุณควรรับประทานอาหารที่มีพลังงานเพิ่มขึ้น และออกกำลังกายให้พอเหมาะ";
+            } elseif ($bmi < 24.9) {
+                $result_text = "น้ำหนักอยู่ในเกณฑ์มาตรฐาน";
+                $advice = "คุณมีสุขภาพดี! รักษาน้ำหนักนี้ไว้ด้วยการออกกำลังกายและกินอาหารให้สมดุล";
+            } elseif ($bmi < 29.9) {
+                $result_text = "น้ำหนักเกินมาตรฐาน (ท้วม)";
+                $advice = "ควรลดอาหารที่มีไขมันและน้ำตาล และออกกำลังกายสม่ำเสมอ";
+            } else {
+                $result_text = "อ้วน (เกินมาตรฐานมาก)";
+                $advice = "ควรปรึกษาแพทย์และวางแผนการลดน้ำหนักอย่างเหมาะสม";
+            }
 
             echo "<div class='result'>";
             echo "<p><strong>ชื่อ:</strong> $first_name $last_name</p>";
             echo "<p><strong>อายุ:</strong> $age ปี</p>";
-            echo "<p><strong>ค่า BMI:</strong> " . number_format($bmi, 2) . " ({$result['status']})</p>";
-            echo "<p><strong>คำแนะนำ:</strong> {$result['advice']}</p>";
+            $bmi =  bmi($height,$weight);
+            show($bmi);
             echo "</div>";
         } else {
             echo "<div class='result'>";
             echo "<p>กรุณากรอกส่วนสูงให้ถูกต้อง</p>";
             echo "</div>";
         }
+        
     }
     ?>
 </div>
+<?php
+function bmi($height,$weight){
+if ($height > 0) {
+    $bmi = $weight / ($height * $height);
+    return $bmi;
+ }
+}
+function show($bmi){
+    if ($bmi < 18.5) {
+        $result_text = "น้ำหนักน้อยกว่ามาตรฐาน (ผอม)";
+        $advice = "คุณควรรับประทานอาหารที่มีพลังงานเพิ่มขึ้น และออกกำลังกายให้พอเหมาะ";
+    } elseif ($bmi < 24.9) {
+        $result_text = "น้ำหนักอยู่ในเกณฑ์มาตรฐาน";
+        $advice = "คุณมีสุขภาพดี! รักษาน้ำหนักนี้ไว้ด้วยการออกกำลังกายและกินอาหารให้สมดุล";
+    } elseif ($bmi < 29.9) {
+        $result_text = "น้ำหนักเกินมาตรฐาน (ท้วม)";
+        $advice = "ควรลดอาหารที่มีไขมันและน้ำตาล และออกกำลังกายสม่ำเสมอ";
+    } else {
+        $result_text = "อ้วน (เกินมาตรฐานมาก)";
+        $advice = "ควรปรึกษาแพทย์และวางแผนการลดน้ำหนักอย่างเหมาะสม";
+    }
+    echo "<p><strong>ค่า BMI:</strong> " . number_format($bmi, 2) . " ($result_text)</p>";
+            echo "<p><strong>คำแนะนำ:</strong> $advice</p>";
+        
+}
+    ?>
 </body>
 </html>
