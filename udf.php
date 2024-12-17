@@ -10,7 +10,24 @@
     <?php
     $name = "Natthaphon";
     Hello($name)
+    //-----------------------------------------
+    echo "<h3>ทดสอบการใช้ Function</h3>";
+    $a = 5;
+    $b = 8;
+    $c = sum($a,$b);
+    echo "$a + $b = $c <br>";
+    echo "<h3>ทดสอบการใช้ Function แบบฦึกำารามิเอตอร์เป็น Reference</h3>";
+    $num = 2;
+    echo "Before ===> \$num = $num <br>"
+    add_5($num);
+    echo "After ===> \$num = $num"
+    echo "<hr>"
+    //-----------------------------------------
     bye();
+
+    function add_5(&$value){
+        $value += 5;
+    }
 
     function Hello($yourname){
         echo "<h3>ผู้พัฒนาโปรแกรม</h3>";
